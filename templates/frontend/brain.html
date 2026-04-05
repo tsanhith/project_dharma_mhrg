@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% set active_page = "brain" %}
+
+{% block header_title %}BRAIN_CONFIG{% endblock %}
+
+{% block content %}
+<div class="flex-1 overflow-y-auto p-8 lg:p-12 scroll-smooth">
+    <div class="max-w-6xl mx-auto space-y-8">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+            <div class="space-y-2">
+                <p class="font-mono text-[10px] tracking-[0.2em] text-[#ff6b00] uppercase font-bold">Neural Core Settings</p>
+                <h2 class="font-headline text-5xl font-black tracking-tighter text-white">THE BRAIN</h2>
+            </div>
+            <div class="flex gap-4">
+                <button type="submit" form="profile-form" class="px-8 py-3 text-xs font-mono font-bold uppercase tracking-widest bg-[#ff6b00] text-black shadow-[0_0_15px_rgba(255,107,0,0.4)] hover:bg-[#ffb693] transition-transform active:scale-95 border-none">
+                    Update Sync
+                </button>
+            </div>
+        </div>
+
+        <form id="profile-form" action="/api/profile" method="POST" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- IDENTITY PARAMETERS -->
+            <div class="glass-panel border border-outline-variant/10 rounded-sm p-8 space-y-6">
+                <div class="flex items-center gap-2 mb-6">
+                    <div class="w-1.5 h-1.5 rounded-full bg-white/60"></div>
+                    <h3 class="font-mono text-[10px] tracking-[0.2em] text-white/60 uppercase font-bold">Identity Parameters</h3>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="font-mono text-[9px] uppercase tracking-widest text-white/40">Full Identifier</label>
+                    <input type="text" name="name" value="{{ profile.name if profile else '' }}" class="w-full bg-[#131315] border border-white/10 text-white p-3 font-mono text-sm focus:border-[#ff6b00] focus:ring-0 transition-colors" placeholder="Alexander Vance" required>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="font-mono text-[9px] uppercase tracking-widest text-white/40">Neural Link (Email)</label>
+                    <input type="email" name="email" value="{{ profile.email if profile else '' }}" class="w-full bg-[#131315] border border-white/10 text-white p-3 font-mono text-sm focus:border-[#ff6b00] focus:ring-0 transition-colors" placeholder="vance.exec@dharma.os" required>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="font-mono text-[9px] uppercase tracking-widest text-white/40">Phone Number</label>
+                    <input type="text" name="phone" value="{{ profile.phone if profile else '' }}" class="w-full bg-[#131315] border border-white/10 text-white p-3 font-mono text-sm focus:border-[#ff6b00] focus:ring-0 transition-colors" placeholder="+1..." required>
+                </div>
+                
+                <div class="space-y-2">
+                    <label class="font-mono text-[9px] uppercase tracking-widest text-white/40">Location</label>
+                    <input type="text" name="location" value="{{ profile.location if profile else '' }}" class="w-full bg-[#131315] border border-white/10 text-white p-3 font-mono text-sm focus:border-[#ff6b00] focus:ring-0 transition-colors" placeholder="San Francisco, CA" required>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="font-mono text-[9px] uppercase tracking-widest text-white/40">LinkedIn</label>
+                        <input type="text" name="linkedin_url" value="{{ profile.linkedin_url if profile else '' }}" class="w-full bg-[#131315] border border-white/10 text-white p-3 font-mono text-sm focus:border-[#ff6b00] focus:ring-0">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="font-mono text-[9px] uppercase tracking-widest text-white/40">GitHub</label>
+                        <input type="text" name="github_url" value="{{ profile.github_url if profile else '' }}" class="w-full bg-[#131315] border border-white/10 text-white p-3 font-mono text-sm focus:border-[#ff6b00] focus:ring-0">
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="font-mono text-[9px] uppercase tracking-widest text-white/40">Core Neural Skills (Comma Sep)</label>
+                    <input type="text" name="base_skills" value="{{ profile.base_skills if profile else '' }}" class="w-full bg-[#131315] border border-white/10 text-white p-3 font-mono text-sm focus:border-[#ff6b00] focus:ring-0" placeholder="Python, React, Systems Architecture">
+                </div>
+            </div>
+
+            <!-- MASTER KNOWLEDGE BASE -->
+            <div class="glass-panel border border-outline-variant/10 rounded-sm p-8 flex flex-col h-full">
+                <div class="flex items-center gap-2 mb-6 text-[#ffe16d]">
+                    <div class="w-1.5 h-1.5 rounded-full bg-[#ffe16d] glow-primary"></div>
+                    <h3 class="font-mono text-[10px] tracking-[0.2em] uppercase font-bold">Master Knowledge Base</h3>
+                </div>
+                
+                <div class="flex-1 flex flex-col space-y-2">
+                    <label class="font-mono text-[9px] uppercase tracking-widest text-white/40">Career History Matrix</label>
+                    <textarea name="base_resume_text" class="flex-1 w-full bg-[#131315]/50 border border-white/5 text-white/70 p-6 font-mono text-sm focus:border-[#ff6b00] focus:ring-0 transition-colors resize-none min-h-[400px]" placeholder="Paste your massive career history here. This serves as the grounding truth for the Dharma LLM to draft your applications, respond to recruiters, and simulate your persona in interviews...">{{ profile.base_resume_text if profile else '' }}</textarea>
+                </div>
+            </div>
+            
+        </form>
+
+        <!-- INTEGRATIONS -->
+        <div class="mt-12 space-y-4">
+            <h3 class="font-mono text-[10px] tracking-[0.2em] text-white/60 uppercase font-bold mb-4">Integrated Protocols</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="glass-panel border border-white/10 p-4 rounded-sm flex items-center justify-between">
+                    <div class="flex gap-3">
+                        <div class="p-2 bg-white/5 rounded-sm"><span class="material-symbols-outlined text-[#ff6b00]">key</span></div>
+                        <div>
+                            <h4 class="font-headline font-bold text-xs uppercase text-white">Groq LLM Key</h4>
+                            <p class="font-mono text-[9px] text-[#ffb693]">Status: Active Interface</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-panel border border-white/10 p-4 rounded-sm flex items-center justify-between border-l-2 border-l-[#ffe16d]">
+                    <div class="flex gap-3">
+                        <div class="p-2 bg-white/5 rounded-sm"><span class="material-symbols-outlined text-[#ffe16d]">mail</span></div>
+                        <div>
+                            <h4 class="font-headline font-bold text-xs uppercase text-white">Google OAuth</h4>
+                            <p class="font-mono text-[9px] text-[#ffe16d]">Secretary & Mail Synced</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skill>
+    <name>project_dharma_mhrg_architect</name>
+    <description>
+        Specialized context for generating code within the Project Dharma MHRG codebase.
+        This provides strict architectural invariants: 100% free tech stack, Pydantic boundaries, Graceful Degradation via Enums, and asynchronous Celery/Redis multi-agent patterns.
+        Always load this skill before writing Python logic for Project Dharma.
+    </description>
+    <guidelines>
+        <rule>
+            <name>Zero-Cost Mandate</name>
+            <instruction>NEVER use OpenAI APIs. You MUST use 'groq' (Llama 3/Mixtral) or 'google-generativeai' (Gemini Free Tier). The database must be PostgreSQL (local or free tier). Use Playwright for free scraping over paid services.</instruction>
+        </rule>
+        <rule>
+            <name>Pydantic First</name>
+            <instruction>Every new model, API payload, or internal function argument MUST be validated by a strictly typed Pydantic V2 schema. If incoming data fails validation, immediately abort the function and flag the job as ERROR.</instruction>
+        </rule>
+        <rule>
+            <name>Graceful Degradation (No Crashes)</name>
+            <instruction>All external I/O (Playwright navigations, Groq LLM generations, LaTeX compilation, Notion API calls) MUST be wrapped in generic try/except blocks. Exceptions MUST update the database JobPipeline status to 'JobStatus.ERROR' and save the Traceback string to 'error_message' before continuing to the next queue item. Never allow a worker loop to crash.</instruction>
+        </rule>
+        <rule>
+            <name>Decoupled Message Queue Communication</name>
+            <instruction>Agents do not import or call each other. The 'scraper' cannot call the 'tailor'. Agents communicate only by producing a job UUID and sending it to a Redis queue ('scrape_queue', 'tailor_queue', 'sync_queue') via Celery tasks.</instruction>
+        </rule>
+        <rule>
+            <name>Strict Status Enums</name>
+            <instruction>Status columns MUST only use the exact values from 'JobStatus': PENDING, SCRAPED, TAILORING, READY, APPLIED, ERROR.</instruction>
+        </rule>
+        <rule>
+            <name>Jinja2 and LaTeX Safety</name>
+            <instruction>When instructing an LLM to output LaTeX injected text, strictly enforce JSON output containing NO unescaped LaTeX control characters (like '%', '$', '&', '_', '\') unless they are part of the intended typesetting. The Python 'subprocess.run' calling 'pdflatex' must ALWAYS have a tight timeout (e.g., 10 seconds).</instruction>
+        </rule>
+    </guidelines>
+</skill>

@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% set active_page = "pipeline" %}
+
+{% block header_title %}LIVE_SYNC{% endblock %}
+
+{% block content %}
+<div class="flex-1 overflow-x-auto p-8 flex gap-8 items-start relative h-full">
+
+    <!-- Column: PENDING (Queue) -->
+    <div class="flex-none w-80 flex flex-col gap-6">
+        <div class="flex items-center justify-between px-1">
+            <div class="flex items-center gap-2">
+                <div class="w-1.5 h-1.5 rounded-full bg-outline-variant"></div>
+                <h2 class="font-headline font-bold text-sm tracking-widest uppercase opacity-60">Pending</h2>
+            </div>
+            <span class="font-mono text-[10px] opacity-40 px-2 py-0.5 bg-surface-container-highest rounded-full">{{ jobs | selectattr('status.name', 'equalto', 'PENDING') | list | length }}</span>
+        </div>
+        <div class="flex flex-col gap-4 overflow-y-auto max-h-[calc(100vh-12rem)] pb-4">
+            {% for job in jobs if job.status.name == 'PENDING' %}
+            <div class="group bg-surface-container-low/40 border border-outline-variant/10 rounded-sm p-5 hover:bg-surface-container-highest/20 transition-all duration-300 relative overflow-hidden glass-panel">
+                <div class="absolute top-0 right-0 p-2 opacity-10 font-mono text-[8px] tracking-tighter font-black">DH-{{ job.id[:4] }}</div>
+                <div class="flex items-start gap-4 mb-4">
+                    <div class="flex flex-col">
+                        <h3 class="font-headline font-bold text-xs uppercase tracking-tight">{{ job.company }}</h3>
+                        <p class="font-mono text-[11px] text-on-surface-variant opacity-70">{{ job.title }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Column: APPLIED -->
+    <div class="flex-none w-80 flex flex-col gap-6">
+        <div class="flex items-center justify-between px-1">
+            <div class="flex items-center gap-2">
+                <div class="w-1.5 h-1.5 rounded-full bg-outline-variant"></div>
+                <h2 class="font-headline font-bold text-sm tracking-widest uppercase opacity-60">Applied</h2>
+            </div>
+            <span class="font-mono text-[10px] opacity-40 px-2 py-0.5 bg-surface-container-highest rounded-full">{{ jobs | selectattr('status.name', 'equalto', 'APPLIED') | list | length }}</span>
+        </div>
+        <div class="flex flex-col gap-4 overflow-y-auto max-h-[calc(100vh-12rem)] pb-4">
+            {% for job in jobs if job.status.name == 'APPLIED' %}
+            <div class="group bg-surface-container-low/40 border border-outline-variant/10 rounded-sm p-5 hover:bg-surface-container-highest/20 transition-all duration-300 relative overflow-hidden glass-panel">
+                <div class="flex items-start gap-4 mb-4">
+                    <div class="flex flex-col">
+                        <h3 class="font-headline font-bold text-xs uppercase tracking-tight">{{ job.company }}</h3>
+                        <p class="font-mono text-[11px] text-on-surface-variant opacity-70">{{ job.title }}</p>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-outline-variant/5">
+                    <span class="font-mono text-[9px] text-on-surface-variant/40 tracking-wider uppercase">Waiting on employer</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Column: ASSESSMENT -->
+    <div class="flex-none w-80 flex flex-col gap-6">
+        <div class="flex items-center justify-between px-1">
+            <div class="flex items-center gap-2">
+                <div class="w-1.5 h-1.5 rounded-full bg-orange-500 glow-primary"></div>
+                <h2 class="font-headline font-bold text-sm tracking-widest uppercase text-orange-500">Assessment</h2>
+            </div>
+        </div>
+        <div class="flex flex-col gap-4 overflow-y-auto max-h-[calc(100vh-12rem)] pb-4">
+            {% for job in jobs if job.status.name == 'ASSESSMENT' %}
+            <div class="group border border-orange-500/30 rounded-sm p-5 bg-[#1a120c] transition-all duration-300 relative overflow-hidden">
+                <div class="flex items-start gap-4 mb-4">
+                    <div class="flex flex-col">
+                        <h3 class="font-headline font-bold text-xs uppercase tracking-tight text-white">{{ job.company }}</h3>
+                        <p class="font-mono text-[11px] text-orange-200/70">{{ job.title }}</p>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-orange-500/20">
+                    <span class="font-mono text-[9px] text-orange-500/60 tracking-wider uppercase">Task Pending</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Column: INTERVIEW -->
+    <div class="flex-none w-80 flex flex-col gap-6">
+        <div class="flex items-center justify-between px-1">
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse shadow-[0_0_10px_rgba(250,204,21,0.8)]"></div>
+                <h2 class="font-headline font-bold text-sm tracking-widest uppercase text-yellow-400">Interview</h2>
+            </div>
+        </div>
+        <div class="flex flex-col gap-4 overflow-y-auto max-h-[calc(100vh-12rem)] pb-4">
+            {% for job in jobs if job.status.name == 'INTERVIEW' %}
+            <div class="group border border-yellow-400/50 rounded-sm p-5 bg-[#1c180b] transition-all duration-300 relative overflow-hidden shadow-[0_4px_20px_-5px_rgba(250,204,21,0.2)] hover:border-yellow-400">
+                <div class="flex items-start gap-4 mb-4">
+                    <div class="flex flex-col">
+                        <h3 class="font-headline font-bold text-xs uppercase tracking-tight text-white">{{ job.company }}</h3>
+                        <p class="font-mono text-[11px] text-yellow-200/70">{{ job.title }}</p>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-yellow-400/20">
+                    <span class="font-mono text-[9px] text-yellow-400 tracking-wider uppercase animate-pulse">Action Required!</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Column: REJECTED -->
+    <div class="flex-none w-80 flex flex-col gap-6 opacity-60">
+        <div class="flex items-center justify-between px-1 text-red-500">
+            <h2 class="font-headline font-bold text-sm tracking-widest uppercase">Rejected</h2>
+        </div>
+        <div class="flex flex-col gap-4 overflow-y-auto max-h-[calc(100vh-12rem)] pb-4">
+            {% for job in jobs if job.status.name == 'REJECTED' %}
+            <div class="group border border-red-900/30 rounded-sm p-5 bg-red-950/10">
+                <h3 class="font-headline font-bold text-xs uppercase tracking-tight text-white/50">{{ job.company }}</h3>
+                <p class="font-mono text-[11px] text-white/30">{{ job.title }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

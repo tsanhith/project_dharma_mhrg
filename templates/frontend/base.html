@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Dharma OS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <style>
+        body {
+            background-color: #131315;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 128px 128px;
+            background-blend-mode: overlay;
+        }
+        .glass-panel {
+            background: rgba(53, 52, 55, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glow-primary {
+            box-shadow: 0 0 15px rgba(255, 107, 0, 0.4);
+        }
+        .pulse-ring {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.4; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-container": "#6a0003", "secondary-fixed-dim": "#e9c400", "error": "#ffb4ab",
+                        "inverse-surface": "#e5e1e4", "surface-container-highest": "#353437", "secondary-fixed": "#ffe16d",
+                        "on-error-container": "#ffdad6", "on-surface": "#e5e1e4", "primary": "#ffb693",
+                        "surface": "#131315", "inverse-on-surface": "#313032", "on-surface-variant": "#e2bfb0",
+                        "tertiary": "#ffb4aa", "on-primary-fixed-variant": "#7a3000", "surface-variant": "#353437",
+                        "secondary": "#fff9ef", "on-tertiary": "#690003", "surface-container-lowest": "#0e0e10",
+                        "surface-dim": "#131315", "on-tertiary-fixed-variant": "#930005", "primary-fixed-dim": "#ffb693",
+                        "outline": "#a98a7d", "tertiary-container": "#ff6858", "surface-bright": "#39393b",
+                        "on-primary-fixed": "#351000", "on-secondary-fixed-variant": "#544600", "tertiary-fixed-dim": "#ffb4aa",
+                        "surface-container-high": "#2a2a2c", "outline-variant": "#5a4136", "primary-container": "#ff6b00",
+                        "background": "#131315", "error-container": "#93000a", "on-primary-container": "#572000",
+                        "primary-fixed": "#ffdbcc", "on-background": "#e5e1e4", "on-secondary": "#3a3000",
+                        "on-tertiary-fixed": "#410001", "on-primary": "#561f00", "surface-container": "#201f22",
+                        "on-secondary-container": "#725f00", "inverse-primary": "#a04100", "secondary-container": "#ffdb3c",
+                        "on-error": "#690005", "tertiary-fixed": "#ffdad5", "surface-container-low": "#1c1b1d",
+                        "on-secondary-fixed": "#221b00", "surface-tint": "#ffb693"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"], "body": ["Inter"], "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-body text-on-surface min-h-screen flex overflow-hidden">
+    <!-- SIDE NAV BAR -->
+    <aside class="hidden md:flex flex-col h-full p-6 justify-between h-screen w-64 border-r border-[#353437]/10 bg-[#131315] shadow-[20px_0_50px_rgba(0,0,0,0.5)] z-50">
+        <div class="space-y-12">
+            <div class="flex flex-col">
+                <span class="text-[#ff6b00] font-black tracking-widest text-xl drop-shadow-[0_0_8px_rgba(255,107,0,0.4)] font-headline">DHARMA OS</span>
+                <span class="font-headline tracking-tighter uppercase text-[10px] font-bold text-[#e5e1e4]/40 mt-1">V.1.0.4-EXECUTIVE</span>
+            </div>
+            <nav class="space-y-2">
+                <a href="/" class="flex items-center gap-4 p-3 transition-all duration-300 font-headline tracking-tighter uppercase text-xs font-bold {% if active_page == 'radar' %}text-[#ffb693] border-r-2 border-[#ffb693] bg-gradient-to-r from-[#ffb693]/5 to-transparent{% else %}text-[#e5e1e4]/50 hover:text-[#e5e1e4] hover:bg-[#353437]/60 hover:backdrop-blur-xl scale-95 active:scale-90{% endif %}">
+                    <span class="material-symbols-outlined" {% if active_page == 'radar' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>sensors</span>
+                    <span>Radar</span>
+                </a>
+                <a href="/pipeline" class="flex items-center gap-4 p-3 transition-all duration-300 font-headline tracking-tighter uppercase text-xs font-bold {% if active_page == 'pipeline' %}text-[#ffb693] border-r-2 border-[#ffb693] bg-gradient-to-r from-[#ffb693]/5 to-transparent{% else %}text-[#e5e1e4]/50 hover:text-[#e5e1e4] hover:bg-[#353437]/60 hover:backdrop-blur-xl scale-95 active:scale-90{% endif %}">
+                    <span class="material-symbols-outlined" {% if active_page == 'pipeline' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>account_tree</span>
+                    <span>Pipeline</span>
+                </a>
+                <a href="/brain" class="flex items-center gap-4 p-3 transition-all duration-300 font-headline tracking-tighter uppercase text-xs font-bold {% if active_page == 'brain' %}text-[#ffb693] border-r-2 border-[#ffb693] bg-gradient-to-r from-[#ffb693]/5 to-transparent{% else %}text-[#e5e1e4]/50 hover:text-[#e5e1e4] hover:bg-[#353437]/60 hover:backdrop-blur-xl scale-95 active:scale-90{% endif %}">
+                    <span class="material-symbols-outlined" {% if active_page == 'brain' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>psychology</span>
+                    <span>Brain</span>
+                </a>
+            </nav>
+        </div>
+        <div class="space-y-4 pt-8 border-t border-[#353437]/10">
+            <div class="flex items-center gap-2 text-[10px] font-headline tracking-widest uppercase text-[#e5e1e4]/40">
+                <span class="material-symbols-outlined text-[14px] text-primary animate-pulse">radio_button_checked</span>
+                <span>Secretary Sync: Listening...</span>
+            </div>
+            <div class="flex items-center gap-2 text-[10px] font-headline tracking-widest uppercase text-[#e5e1e4]/40">
+                <span class="material-symbols-outlined text-[14px]">radar</span>
+                <span>Radar: Sweeping...</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- CONTENT BLOCK -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden">
+        <!-- TOP APP BAR -->
+        <header class="w-full h-16 border-b border-[#353437]/10 bg-[#131315]/70 backdrop-blur-xl flex items-center justify-between px-8 z-40">
+            <div class="flex items-center gap-4">
+                <div class="h-2 w-2 rounded-full bg-primary glow-primary"></div>
+                <h1 class="font-headline font-bold tracking-tighter text-on-surface">TERMINAL_SESSION // {% block header_title %}DEFAULT{% endblock %}</h1>
+            </div>
+            <div class="flex items-center gap-8 font-headline font-medium">
+                <div class="hidden lg:flex items-center gap-6">
+                    <span class="material-symbols-outlined text-[#e5e1e4]/60 cursor-pointer hover:text-[#ffb693] transition-opacity">notifications_active</span>
+                    <span class="material-symbols-outlined text-[#e5e1e4]/60 cursor-pointer hover:text-[#ffb693] transition-opacity">terminal</span>
+                    <span class="material-symbols-outlined text-[#e5e1e4]/60 cursor-pointer hover:text-[#ffb693] transition-opacity">settings</span>
+                </div>
+                <!-- Avatar placeholder -->
+                <div class="h-8 w-8 rounded-sm bg-surface-container-highest flex items-center justify-center border border-outline-variant/20 overflow-hidden">
+                    <span class="material-symbols-outlined text-[#e5e1e4]/60">person</span>
+                </div>
+            </div>
+        </header>
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

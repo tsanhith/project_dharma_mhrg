@@ -1,0 +1,7 @@
+
+.env
+.env.*
+__pycache__/
+venv/
+*.log
+texput.log

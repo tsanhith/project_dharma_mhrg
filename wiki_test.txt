@@ -1,0 +1,35 @@
+Software engineering - Wikipedia
+Jump to content
+From Wikipedia, the free encyclopedia
+Engineering approach to software development
+Not to be confused with
+Computer programming
+or
+Software development
+.
+Part of a series on
+Software development
+hide
+Core activities
+Data modeling
+Processes
+Requirements
+Design
+Construction
+Engineering
+Testing
+Debugging
+Deployment
+Maintenance
+show
+Paradigms and models
+Agile
+Cleanroom
+Incremental
+Prototyping
+Spiral
+V model
+Waterfall
+show
+Methodologies
+and frameworks
